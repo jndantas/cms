@@ -42,7 +42,7 @@ class TagController extends Controller
             'slug' => Str::slug($request->tag)
 
         ]);
-        alert()->success('Tag criada com sucesso!', 'Optional Title');
+        alert()->success('Tag criada com sucesso!', 'Salvo');
 
         return redirect(route('tag.index'));
     }
@@ -82,7 +82,7 @@ class TagController extends Controller
             'tag' => $request->tag,
             'slug' => Str::slug($request->tag)
         ]);
-        alert()->success('Tag Atualizada!', 'Optional Title');
+        alert()->success('Tag Atualizada!', 'Atualizado');
         return redirect(route('tag.index'));
     }
 
@@ -95,11 +95,11 @@ class TagController extends Controller
     public function destroy(Tag $tag)
     {
         if($tag->posts->count() > 0) {
-            alert()->error('Tag não pode ser apagada porque ela tem posts!', 'Optional Title');
+            alert()->error('Tag não pode ser apagada porque ela tem posts!', 'Não, não ...');
             return redirect()->back();
         }
         $tag->delete();
-        alert()->success('Tag deletada!', 'Optional Title');
+        alert()->success('Tag deletada!', 'Deletado');
         return redirect(route('tag.index'));
     }
 }

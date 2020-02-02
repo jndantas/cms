@@ -32,13 +32,13 @@ class TagRequest extends FormRequest
             case 'POST':
             {
                 return [
-                    'tag' => 'required|unique:tags'
+                    'tag' => 'required|min:3|unique:tags'
                 ];
                 break;
             }
             case 'PUT':
                 return [
-                    'tag' => 'required|unique:tags'
+                    'tag' => 'required|min:3|unique:tags'
                 ];
                 break;
             case 'PATCH':
@@ -50,8 +50,8 @@ class TagRequest extends FormRequest
 
     public function messages(){
         return [
-        'tag.required' => 'Escolha um nome para categoria',
-        'tag.min' => 'A categoria deve conter mais de 3 caracteres.',
+        'tag.required' => 'Escolha um nome para TAG',
+        'tag.min' => 'O nomda da TAG deve conter mais de 3 caracteres.',
         'id.required' => 'O campo id é obrigatorio.',
         'id.numeric' => 'O campo id deve ser numerico',
         'id.exists' => 'O campo id informado não existe',
