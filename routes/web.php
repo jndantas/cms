@@ -15,11 +15,12 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Auth::routes();
+Auth::routes(['register' => false]);
 
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
+    Route::get('dashboard', 'AdminController@index')->name('dashboard');
     Route::resource('category', 'CategoryController');
     Route::resource('tag', 'TagController');
     Route::resource('post', 'PostController');
