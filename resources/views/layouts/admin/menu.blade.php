@@ -77,7 +77,7 @@
 
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="#" class="nav-link" active-class="active" exact>
+                    <a href="{{ route('users') }}" class="nav-link" active-class="active" exact>
                         <i class="fas fa-users nav-icon"></i>
                         <p>Usuários</p>
                     </a>

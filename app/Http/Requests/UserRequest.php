@@ -33,7 +33,7 @@ class UserRequest extends FormRequest
             {
                 return [
                     'name' => 'required',
-                    'email' => 'required|email'
+                    'email' => 'required|email|unique:users'
                 ];
                 break;
             }
@@ -50,8 +50,9 @@ class UserRequest extends FormRequest
 
     public function messages(){
         return [
-        'name.required' => 'Escolha um nome para categoria',
-        'email.required' => 'Coloque um e-mail válido',
+        'name.required' => 'Escolha um nome para o usuário!',
+        'email.required' => 'Coloque um e-mail válido!',
+        'email.unique' => 'Esse E-mail já existe, por favor escolha outro!',
         'id.required' => 'O campo id é obrigatorio.',
         'id.numeric' => 'O campo id deve ser numerico',
         'id.exists' => 'O campo id informado não existe',

@@ -48,7 +48,7 @@ class UserController extends Controller
             'user_id' => $user->id,
             'avatar' => 'uploads/avatars/1.png'
         ]);
-        alert()->success('Usuário criado com sucesso!', 'Optional Title');
+        alert()->success('Usuário criado com sucesso!', 'Salvo');
 
         return redirect()->route('users');
     }
