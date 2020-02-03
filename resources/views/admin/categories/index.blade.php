@@ -28,7 +28,7 @@ Categorias
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-2x fa-box"></i>
+                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-2x fa-boxes"></i>
                         <a href="{{ route('category.create') }}" class="btn btn-primary btn-circle float-right"><i class="fas fa-plus"></i></a>
                 </div>
                 <div class="card-body">
@@ -52,7 +52,8 @@ Categorias
                                         <a href="{{ route('category.edit', $c->id ) }}" class="btn btn-info btn-circle btn-lg"><i class="fas fa-pen-alt"></i>
                                         </a>
                                     </th>
-                                    <th><button class="btn btn-danger btn-circle btn-lg" onclick="handleDelete({{ $c->id }})"><i class="fas fa-trash-alt"></i> </button>
+                                    <th>
+                                        <button class="btn btn-danger btn-circle btn-lg" onclick="handleDelete({{ $c->id }})"><i class="fas fa-trash-alt"></i> </button>
                                     </th>
                                 </tr>
                             @endforeach

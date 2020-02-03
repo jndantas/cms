@@ -12,6 +12,12 @@ use Illuminate\Support\Facades\File;
 
 class PostController extends Controller
 {
+
+    public function __construct()
+    {
+        $this->middleware('verifyCategoriesCount')->only(['create', 'store']);
+        $this->middleware('verifyTagsCount')->only(['create', 'store']);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -29,21 +35,9 @@ class PostController extends Controller
      */
     public function create()
     {
-        $categories = Category::all();
 
-        $tags = Tag::all();
-
-        if($categories->count() == 0){
-            alert()->info('Você precisa criar uma CATEGORIA antes de criar o POST!!', 'Optional Title');
-            return view('admin.categories.create');
-        }
-        if($tags->count() == 0){
-            alert()->info('Você precisa criar pelo menos uma TAG antes de criar o POST.', 'Optional Title');
-            return view('admin.tags.create');
-        }
-
-        return view('admin.posts.create')->with('categories', $categories)
-                                          ->with('tags', $tags);
+        return view('admin.posts.create')->with('categories', Category::all())
+                                          ->with('tags', Tag::all());
     }
 
     /**
@@ -72,9 +66,9 @@ class PostController extends Controller
         if ($request->tags) {
             $post->tags()->attach($request->tags);
         }
-        alert()->success('Post criado com Sucesso!!', 'Optional Title');
+        alert()->success('Post criado com Sucesso!!', 'Salvo');
 
-        return redirect(route('posts.index'));
+        return redirect(route('post.index'));
     }
 
     /**
@@ -123,9 +117,9 @@ class PostController extends Controller
                 $post->tags()->sync($request->tags);
             }
             $post->update($data);
-            alert()->success('Post atualizado com Sucesso!!', 'Optional Title');
+            alert()->success('Post atualizado com Sucesso!!', 'Atualizado');
 
-            return redirect(route('posts.index'));
+            return redirect(route('post.index'));
     }
 
     /**
@@ -144,8 +138,8 @@ class PostController extends Controller
         } else {
             $post->delete();
         }
-        alert()->success('Post apagado com Sucesso!!', 'Optional Title');
-        return redirect(route('posts.index'));
+        alert()->success('Post apagado com Sucesso!!', 'Deletado');
+        return redirect(route('post.index'));
     }
 
     public function trashed()
@@ -154,20 +148,12 @@ class PostController extends Controller
         return view('admin.posts.index')->with('posts', $trashed);
     }
 
-    public function kill($id){
-        $post = Post::withTrashed()->where('id', $id)->first();
-        $post->forceDelete();
-        alert()->success('Post apagado permanentemente!!', 'Optional Title');
-
-        return redirect()->back();
-    }
-
     public function restore($id)
     {
         $post = Post::withTrashed()->where('id', $id)->firstOrFail();
         $post->restore();
-        alert()->success('Post restaurado com Sucesso!!', 'Optional Title');
+        alert()->success('Post restaurado com Sucesso!!', 'Restaurado');
 
-        return redirect(route('posts.index'));
+        return redirect(route('post.index'));
     }
 }

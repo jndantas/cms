@@ -94,12 +94,12 @@ class CategoryController extends Controller
     public function destroy(Category $category)
     {
         if ($category->posts->count() > 0){
-            toastr()->error('Categoria não pode ser deletada porque ela tem posts.');
+            alert()->error('Categoria não pode ser deletada porque ela tem posts.');
             return redirect()->back();
         }
         $category->delete();
 
-        alert()->warning('Categoria apagada com sucesso!!', 'Optional Title');
+        alert()->warning('Categoria apagada com sucesso!!', 'Deleteda');
         return redirect(route('category.index'));
     }
 }

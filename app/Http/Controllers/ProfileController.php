@@ -70,7 +70,7 @@ class ProfileController extends Controller
      * @param  \App\Model\Profile  $profile
      * @return \Illuminate\Http\Response
      */
-    public function update(ProfileRequest $request, Profile $profile)
+    public function update(ProfileRequest $request)
     {
 
         $user = Auth::user();

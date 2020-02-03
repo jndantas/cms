@@ -14,6 +14,7 @@ try {
     require('admin-lte');
     require("sweetalert");
     require('datatables.net-bs4');
+    require('bootstrap4-toggle');
 } catch (e) {}
 
 /**

@@ -28,7 +28,7 @@ Tags
         <div class="col-12">
             <div class="card">
                 <div class="card-header">
-                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-2x fa-box"></i>
+                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-2x fa-tags"></i>
                         <a href="{{ route('tag.create') }}" class="btn btn-primary btn-circle float-right"><i class="fas fa-plus"></i></a>
                 </div>
                 <div class="card-body">

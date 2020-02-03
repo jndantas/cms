@@ -9,6 +9,11 @@ use Illuminate\Http\Request;
 
 class UserController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -46,11 +51,37 @@ class UserController extends Controller
 
         $profile = Profile::create([
             'user_id' => $user->id,
-            'avatar' => 'uploads/avatars/1.png'
+            'avatar' => 'uploads/profile/garoto.png'
         ]);
+
         alert()->success('Usuário criado com sucesso!', 'Salvo');
 
-        return redirect()->route('users');
+        return redirect()->route('user.index');
+    }
+
+    public function makeAdmin($id)
+    {
+        $user = User::find($id);
+        $user->role = 'admin';
+        $user->save();
+        alert()->info('Permissão alterada com sucesso');
+        return redirect()->back();
+    }
+    public function not_admin($id)
+    {
+        $user = User::find($id);
+        $user->role = 'writer';
+        $user->save();
+        alert()->info('Permissão alterada com sucesso');
+        return redirect()->back();
+    }
+
+    public function changeStatus(Request $request)
+    {
+        $user = User::find($request->user_id);
+        $user->status = $request->status;
+        $user->save();
+        return response()->json(['success'=>'Status mudado com sucesso.']);
     }
 
     /**
@@ -93,12 +124,16 @@ class UserController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(User $user)
     {
-        $user = User::find($id);
+        if ($user->posts->count() > 0){
+        alert()->error('Usuário não pode ser deletada porque ela tem posts.', 'Inative o Usuário');
+        return redirect()->back();
+    }else{
         $user->profile->delete();
         $user->delete();
-        alert()->success('Usuário Deletado!', 'Optional Title');
+        alert()->success('Usuário Deletado!', 'Deletado');
         return redirect()->back();
+    }
     }
 }

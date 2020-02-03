@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
 
 class LoginController extends Controller
 {
@@ -37,4 +38,16 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+    protected function validateLogin(Request $request)
+{
+    $this->validate($request, [
+        $this->username() => 'required|exists:users,' . $this->username() . ',status,1',
+        'password' => 'required',
+    ], [
+        $this->username() . '.exists' => 'Credenciais informadas não correspondem com nossos registros.'
+    ]);
+}
+
+
 }

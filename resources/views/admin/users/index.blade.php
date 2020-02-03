@@ -26,7 +26,7 @@ Usuários
 <section class="content">
             <div class="card card-solid">
                 <div class="card-header">
-                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-2x fa-box"></i>
+                    <h6 class="m-0 font-weight-bold text-primary"><i class="fas fa-2x fa-users"></i>
                         <a href="{{ route('user.create') }}" class="btn btn-primary btn-circle float-right"><i class="fas fa-plus"></i></a>
                 </div>
                 <div class="card-body pb-0">
@@ -37,13 +37,21 @@ Usuários
                         <div class="col-12 col-sm-6 col-md-4 d-flex align-items-stretch">
                             <div class="card bg-light">
                               <div class="card-header text-muted border-bottom-0">
-                                Função
+                                @if ($user->role === 'admin')
+                                    Administrador
+                                @else
+                                    Escritor
+                                @endif
+                                <div class="float-right">
+                                <input data-id="{{$user->id}}" class="toggle-class" type="checkbox" data-onstyle="success" data-offstyle="danger" data-toggle="toggle" data-size="sm" data-on="Ativo" data-off="Inativo" {{ $user->status ? 'checked' : '' }}>
+                                </div>
                               </div>
                               <div class="card-body pt-0">
                                 <div class="row">
                                   <div class="col-7">
-                                    <h2 class="lead"><b>{{ $user->name }}</b></h2>
-                                    <p class="text-muted text-sm"><b>About: </b> Web Designer / UX / Graphic Artist / Coffee Lover </p>
+                                    <h2 class="lead m-2"><b>{{ $user->name }}</b></h2>
+                                    <p class="text-muted text-sm"><b>Sobre mim: </b>{{ $user->profile->about }} </p>
+                                    <p class="text-muted text-sm"><b>Posts: </b>{{ $user->posts->count() }} </p>
                                     <ul class="ml-4 mb-0 fa-ul text-muted">
                                       <li class="small"><span class="fa-li"><i class="fas fa-lg fa-building"></i></span> Address: Demo Street 123, Demo City 04312, NJ</li>
                                       <li class="small"><span class="fa-li"><i class="fas fa-lg fa-phone"></i></span> Phone #: + 800 - 12 12 23 52</li>
@@ -57,12 +65,24 @@ Usuários
                               </div>
                               <div class="card-footer">
                                 <div class="text-right">
-                                  <a href="#" class="btn btn-sm bg-teal">
-                                    <i class="fas fa-comments"></i>
-                                  </a>
-                                  <a href="#" class="btn btn-sm btn-primary">
-                                    <i class="fas fa-user"></i> View Profile
-                                  </a>
+
+                                  @if (!$user->isAdmin())
+
+                                    <a href="{{ route('user.admin', ['id' => $user->id]) }}" class="btn btn-sm bg-teal">
+                                            <i class="fas fa-user-cog"></i> Tornar Administrador
+                                        </a>
+                                  @else
+                                    <a href="{{ route('user.not.admin', ['id' => $user->id]) }}" class="btn btn-sm bg-teal">
+                                        <i class="fas fa-lock"></i> Remover Permissões
+                                    </a>
+                                  @endif
+
+                                  @if(Auth::id() !== $user->id )
+                                  <button onclick="handleDelete({{ $user->id }})" class="btn btn-sm btn-danger">
+                                    <i class="fas fa-trash"></i> Deletar
+                                  </button>
+                                  @endif
+
                                 </div>
                               </div>
                             </div>
@@ -77,7 +97,7 @@ Usuários
 
 
 
-<form action="" method="POST" id="deleteCategoryForm">
+<form action="" method="POST" id="deleteForm">
     @csrf
     @method('DELETE')
       <!-- Modal -->
@@ -92,7 +112,7 @@ Usuários
             </div>
             <div class="modal-body">
               <p class="text-center text-bold">
-                  Você realmente quer apagar essa categoria?
+                  Você realmente quer apagar esse Usuário?
               </p>
             </div>
             <div class="modal-footer">
@@ -109,11 +129,28 @@ Usuários
 @section('js')
 
 <script>
+$(function() {
+    $('.toggle-class').change(function() {
+        var status = $(this).prop('checked') == true ? 1 : 0;
+        var user_id = $(this).data('id');
+
+        $.ajax({
+            type: "GET",
+            dataType: "json",
+            url: '/admin/changeStatus',
+            data: {'status': status, 'user_id': user_id},
+            success: function(data){
+              console.log(data.success)
+            }
+        });
+    })
+  })
 
 function handleDelete(id){
-        var form = document.getElementById('deleteCategoryForm')
-        form.action = '/admin/category/' + id
+        var form = document.getElementById('deleteForm')
+        form.action = '/admin/user/' + id
         $('#deleteModal').modal('show')
     }
-    </script>
+
+</script>
 @endsection

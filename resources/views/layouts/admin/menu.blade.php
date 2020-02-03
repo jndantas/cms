@@ -14,29 +14,29 @@
         </li>
         <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
-                <i class="nav-icon fas fa-user-astronaut"></i>
+                <i class="nav-icon fab fa-blogger yellow"></i>
                 <p>
-                    Posts
+                    Blog
                     <i class="right fas fa-angle-left"></i>
                 </p>
             </a>
             <ul class="nav nav-treeview">
                 <li class="nav-item">
                     <a href="{{ route('category.index') }}" class="nav-link" active-class="active" exact>
-                        <i class="fas fa-building nav-icon"></i>
+                        <i class="fas fa-boxes nav-icon"></i>
                         <p>Categorias</p>
                     </a>
                 </li>
                 <li class="nav-item">
                     <a href="{{ route('tag.index') }}" class="nav-link" active-class="active" exact>
-                        <i class="fas fa-boxes nav-icon"></i>
+                        <i class="fas fa-tags nav-icon"></i>
                         <p>Tags</p>
                     </a>
                 </li>
 
                 <li class="nav-item has-treeview">
                     <a href="#" class="nav-link">
-                        <i class="fas fa-user-shield nav-icon"></i>
+                        <i class="fas fa-newspaper nav-icon"></i>
                         <p>
                             Posts
                             <i class="right fas fa-angle-left"></i>
@@ -44,20 +44,20 @@
                     </a>
                     <ul class="nav nav-treeview" style="display: none;">
                         <li class="nav-item">
-                            <a href="#" class="nav-link">
-                                <i class="fas fa-circle nav-icon"></i>
+                            <a href="{{ route('post.create') }}" class="nav-link">
+                                <i class="fas fa-plus-circle nav-icon"></i>
                                 <p>Novo Post</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link" active-class="active" exact>
-                                <i class="fas fa-sign-in-alt nav-icon"></i>
+                            <a href="{{ route('post.index') }}" class="nav-link" active-class="active" exact>
+                                <i class="fas fa-file-alt nav-icon"></i>
                                 <p>Todos Posts</p>
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="#" class="nav-link" active-class="active" exact>
-                                <i class="fas fa-sign-out-alt nav-icon"></i>
+                            <a href="{{ route('post.trashed') }}" class="nav-link" active-class="active" exact>
+                                <i class="fas fa-trash-alt nav-icon"></i>
                                 <p>Posts Excluídos</p>
                             </a>
                         </li>
@@ -66,6 +66,7 @@
 
             </ul>
         </li>
+        @if(Auth::user()->isAdmin())
         <li class="nav-item has-treeview">
             <a href="#" class="nav-link">
                 <i class="nav-icon fas fa-cogs"></i>
@@ -77,15 +78,16 @@
 
             <ul class="nav nav-treeview">
                 <li class="nav-item">
-                    <a href="{{ route('users') }}" class="nav-link" active-class="active" exact>
+                    <a href="{{ route('user.index') }}" class="nav-link" active-class="active" exact>
                         <i class="fas fa-users nav-icon"></i>
                         <p>Usuários</p>
                     </a>
                 </li>
             </ul>
         </li>
+        @endif
         <li class="nav-item">
-            <a href="#" class="nav-link" active-class="active" exact>
+            <a href="{{ route('user.profile') }}" class="nav-link" active-class="active" exact>
                 <i class="nav-icon fas fa-user-alt green"></i>
                 <p>
                     Perfil
