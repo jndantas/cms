@@ -5,7 +5,7 @@
             with font-awesome or any other icon font library -->
 
         <li class="nav-item">
-            <a href="{{route('home')}}" class="nav-link" active-class="active" exact>
+            <a href="{{route('dashboard')}}" class="nav-link" active-class="active" exact>
                 <i class="nav-icon fas fa-tachometer-alt blue"></i>
                 <p>
                     Dashboard
@@ -81,6 +81,12 @@
                     <a href="{{ route('user.index') }}" class="nav-link" active-class="active" exact>
                         <i class="fas fa-users nav-icon"></i>
                         <p>Usuários</p>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{{ route('settings') }}" class="nav-link" active-class="active" exact>
+                        <i class="fas fa-cog nav-icon"></i>
+                        <p>Configurações</p>
                     </a>
                 </li>
             </ul>

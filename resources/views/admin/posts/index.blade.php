@@ -39,6 +39,7 @@ Posts
                                     <th>Imagem</th>
                                     <th>Título</th>
                                     <th>Categoria</th>
+                                    <th>Autor</th>
                                     <th></th>
                                     <th></th>
                                 </tr>
@@ -55,6 +56,7 @@ Posts
                                             {{ $post->category->name }}
                                         </a>
                                     </td>
+                                    <td>{{ $post->user->name }}</td>
 
                                     @if($post->trashed())
 

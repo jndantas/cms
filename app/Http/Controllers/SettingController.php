@@ -2,11 +2,17 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\SettingRequest;
 use App\Model\Setting;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\File;
 
 class SettingController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('admin');
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +20,7 @@ class SettingController extends Controller
      */
     public function index()
     {
-        //
+        return view('admin.settings.settings')->with('settings', Setting::first());
     }
 
     /**
@@ -67,9 +73,35 @@ class SettingController extends Controller
      * @param  \App\Model\Setting  $setting
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Setting $setting)
+    public function update(SettingRequest $request, Setting $setting)
     {
-        //
+        $settings = Setting::first();
+        if($request->hasFile('logo')){
+            $logo = $request->logo;
+            $logo_new_name = time() . $logo->getClientOriginalName();
+            $logo->move('uploads/logo', $logo_new_name);
+            File::delete($settings->logo);
+            $settings->logo = 'uploads/logo/' . $logo_new_name;
+
+            $settings->save();
+        }
+
+        $settings->site_name = request()->site_name;
+        $settings->address = request()->address;
+        $settings->contact_email = request()->contact_email;
+        $settings->contact_number = request()->contact_number;
+        $settings->disponible = request()->disponible;
+        $settings->country = request()->country;
+        $settings->facebook = request()->facebook;
+        $settings->twitter = request()->twitter;
+        $settings->instagram = request()->instagram;
+        $settings->youtube = request()->youtube;
+
+        $settings->update();
+
+        alert()->success('Configurações atualizadas.');
+
+        return redirect()->back();
     }
 
     /**

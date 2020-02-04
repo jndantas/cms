@@ -32,5 +32,6 @@ Route::group(['prefix' => 'admin', 'middleware' => 'auth'], function () {
     Route::post('profile/update', ['uses' => 'ProfileController@update', 'as'=>'user.profile.update']);
     Route::get('user/admin/{id}', ['uses' => 'UserController@makeAdmin', 'as' => 'user.admin']);
     Route::get('user/not-admin/{id}', ['uses' => 'UserController@not_admin', 'as' => 'user.not.admin']);
-
+    Route::get('/settings', ['uses' => 'SettingController@index', 'as' => 'settings']);
+    Route::post('/settings/update', ['uses' => 'SettingController@update', 'as' => 'settings.update']);
 });
